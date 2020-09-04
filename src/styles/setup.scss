@@ -24,6 +24,11 @@ button {
     color: #eee;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .app {
     min-height: 100vh;
     display: flex;
@@ -34,20 +39,38 @@ button {
     color: white;
 }
 
+header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3rem;
+    background-color: #666;
+    
+    button {
+        font-size: 0.9rem;
+    }
+}
+
+// fix phone bottom margin
+nav.m_init {
+    height: 4.5rem;
+}
+
 nav {
     position: fixed;
     left: 0;
     bottom: 0;
     right:0;
     min-width: 100vw;
-    height: 4.5rem;
     background-color: #dadada;
     display: flex;
     
 
-    &>button {
+    a {
         position: relative;
         height: 3rem;
+        line-height: 3rem;
         font-size: 0.9rem;
         flex: 2;
         text-align: center;
@@ -67,7 +90,7 @@ nav {
         background-image: linear-gradient(to bottom, #cacaca 50%, #dadada);
     }
 
-    .my {
+    .side {
         flex: 1
     }
 }

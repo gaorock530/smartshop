@@ -1,13 +1,42 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  // useHistory
+  
+} from "react-router-dom";
+
+// lib
+// components
+import Nav from 'components/buy'
+// router
+import Home from 'router/home'
+import Details from 'router/detail'
+import Shop from 'router/shop'
+import Shoppingchart from 'router/shoppingchart'
+import Mypage from 'router/mypage'
+
+
 
 function App() {
+
+ 
+
+ 
+  
   return (
     <div className="App">
-      <nav>
-        <button className="my">我</button>
-        <button className="border">加入购物车</button>
-        <button className="border">立即购买</button>
-      </nav>
+      <Router>
+        <Nav/>
+        <Switch>
+          <Route path='/' exact><Home/></Route>
+          <Route path='/item/:id'><Details/></Route>
+          <Route path='/shop/:id'><Shop/></Route>
+          <Route path='/shoppingchart'><Shoppingchart/></Route>
+          <Route path='/my'><Mypage/></Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
