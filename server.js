@@ -1,4 +1,4 @@
-// const https = require('https');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 // const axios = require('axios');
@@ -18,22 +18,22 @@ const PORT = 3000;
 
 
 
-app.listen(PORT, (e) => {
-  console.log(e || `Server is running on port ${PORT}.`);
-});
-
-
-// const options = {
-//   key: fs.readFileSync(path.join(__dirname, '/ssl/2_henanbisai.com.key')),
-//   cert: fs.readFileSync(path.join(__dirname, '/ssl/1_henanbisai.com_bundle.crt'))
-// };
-
-// const server = https.createServer(options, app);
-
-
-// server.listen(PORT, (e) => {
+// app.listen(PORT, (e) => {
 //   console.log(e || `Server is running on port ${PORT}.`);
 // });
+
+
+const options = {
+  key: fs.readFileSync(path.join(__dirname, '/ssl/2_api.yingxitech.com.key')),
+  cert: fs.readFileSync(path.join(__dirname, '/ssl/1_api.yingxitech.com_bundle.crt'))
+};
+
+const server = https.createServer(options, app);
+
+
+server.listen(PORT, (e) => {
+  console.log(e || `Server is running on port ${PORT}.`);
+});
 
 
 // app.post('/wxconfig', async (req, res) => {
