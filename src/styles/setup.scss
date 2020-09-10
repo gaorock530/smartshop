@@ -7,7 +7,8 @@ html {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     background-color: #282c34;
-    position: sticky;
+    position: relative;
+    overflow: hidden;
 }
 
 button {
@@ -27,16 +28,6 @@ button {
 a {
     text-decoration: none;
     color: inherit;
-}
-
-.app {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
 }
 
 header {
@@ -93,4 +84,9 @@ nav {
     .side {
         flex: 1
     }
+}
+
+.break-text {
+    word-wrap: break-word;
+    word-break: keep-all;
 }
