@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,9 +7,12 @@ import {
   
 } from "react-router-dom";
 
+// context
+import {MainProvider} from 'context/freeseContext'
+
 // lib
 // components
-import Nav from 'components/buy'
+import Nav from 'components/nav'
 // router
 import Home from 'router/home'
 import Details from 'router/detail'
@@ -21,12 +24,11 @@ import Mypage from 'router/mypage'
 
 function App() {
 
- 
 
  
   
   return (
-    <div className="App">
+    <MainProvider>
       <Router>
         <Nav/>
         <Switch>
@@ -37,7 +39,7 @@ function App() {
           <Route path='/my'><Mypage/></Route>
         </Switch>
       </Router>
-    </div>
+    </MainProvider>
   );
 }
 
