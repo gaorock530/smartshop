@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react'
+import React, {useEffect, useState, useContext, useRef, useCallback} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart, faStore, faUser } from '@fortawesome/free-solid-svg-icons'
 import {
@@ -9,6 +9,7 @@ import {
 import Buy from './buy';
 import Bar from './stateBar';
 import {MainContext, FREESE, UNFREESE} from 'context/freeseContext'
+import innerHeight from 'ios-inner-height'
 
 
 
@@ -18,6 +19,10 @@ export default () => {
     const [longNav, setLongNav] = useState(true)
     const [showBar, setShowBar] = useState(false)
     const [display, setDisplay] = useState(false)
+
+    const windowSize = useRef(null)
+    const timer = useRef(Date.now())
+
     let location = useLocation();
     let history = useHistory();
     const length = history.length
@@ -26,6 +31,8 @@ export default () => {
         setDisplay(true)
         setShowBar(true)
         dispatch({type: FREESE})
+        console.log('freese')
+        // document.body.classList.add('freese')
     }
     const onClose = () => {
         setShowBar(false)
@@ -34,11 +41,36 @@ export default () => {
     const onTransitionEnd = () => {
         setDisplay(false)
         dispatch({type: UNFREESE})
+        console.log('unfreese')
+        // document.body.classList.remove('freese')
     }
 
+    const detectSize = useCallback(() => {
+        setLongNav(isLongNav(length, windowSize))
+        windowSize.current = getBrowserInterfaceSize()
+    }, [length])
+
+    const debounce = useCallback(() => {
+        if (Date.now() - timer.current > 30) {
+            timer.current = Date.now()
+            detectSize()
+        }
+    }, [detectSize])
+
     useEffect(() => {
-        setLongNav(isLongNav(length))
-    }, [location, length])
+        windowSize.current = getBrowserInterfaceSize()
+        setLongNav(isLongNav(length, windowSize))
+        windowSize.current = getBrowserInterfaceSize()
+        window.addEventListener('resize', detectSize)
+        window.addEventListener('scroll', debounce)
+        window.addEventListener('orientationchange', detectSize)
+        // setWindowSize(document.body.clientHeight)
+
+        return () => {
+            window.removeEventListener('resize', detectSize)
+        }
+
+    }, [location, length, detectSize, debounce])
 
 
     return (
@@ -47,6 +79,15 @@ export default () => {
             <Link to='/shop/123' className="side"><FontAwesomeIcon icon={faStore}/></Link>
             <Link to='/shoppingchart' className="side"><FontAwesomeIcon icon={faShoppingCart}/></Link>
             <Buy onClick={onClick}/>
+            <div className="test">
+                <li>windowSize.current: {windowSize.current}</li>
+                <li>document.body.clientHeight: {document.body.clientHeight}</li>
+                <li>document.body.offsetHeight : {document.body.offsetHeight }</li>
+                <li>document.body.scrollHeight: {document.body.scrollHeight}</li>
+                <li>window.screen.height: {window.screen.height}</li>
+                <li>window.innerHeight: {window.innerHeight}</li>
+                <li>{innerHeight()}</li>
+            </div>
             {display && <Bar open={showBar} onClose={onClose}/>}
             {display && <div className={`mask${!showBar?' close':''}`} onClick={onClose} onTransitionEnd={onTransitionEnd}></div>}
         </nav>
@@ -54,7 +95,7 @@ export default () => {
 }
 
 
-function isLongNav(historyLength) {
+function isLongNav(historyLength, windowHeight) {
     const agent = window.navigator.userAgent;
     const isiPhone = agent.match(/iphone/ig);
     // uses device screen size determine iPhone model
@@ -67,8 +108,37 @@ function isLongNav(historyLength) {
     // determine if inside WX
     const isWx = agent.match(/micromessenger/ig)
 
-    if (isXPlus && (isPWA || (isWx && historyLength < 2))) return true
+    const isEqual = windowHeight.current === getBrowserInterfaceSize() 
+    const isIncrease = windowHeight.current < getBrowserInterfaceSize() 
+    
+
+
+    if (isXPlus && (isPWA || (isWx && historyLength < 2) || isIncrease || (!isWx && !isIncrease && !isEqual))) return true
 }
 // function useQuery() {
 //     return new URLSearchParams(useLocation().search);
 // }
+
+function getBrowserInterfaceSize() {
+    // var pageWidth = window.innerWidth;
+    let pageHeight = window.innerHeight;
+
+    console.log(window.innerHeight, window.screen.availHeight)
+ 
+    if (typeof pageWidth != "number") {
+        //在标准模式下面
+        if (document.compatMode === "CSS1Compat" ) {
+            // pageWidth = document.documentElement.clientWidth;
+            pageHeight = document.documentElement.clientHeight;
+        } else {
+            // pageWidth = document.body.clientWidth;
+            pageHeight = window.body.clientHeight;
+        }
+    }
+ 
+    // return {
+    //     pageWidth: pageWidth,
+    //     pageHeight: pageHeight
+    // }
+    return pageHeight
+}

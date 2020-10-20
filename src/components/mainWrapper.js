@@ -7,19 +7,19 @@ export default ({children}) => {
   const wrapperRef = useRef(null)
   // const allow = useRef(true)
 
-  useEffect(() => {
-    console.log(freese)
-    // if (freese) {
-    //   wrapperRef.current.classList.add('freese')
-    // } else {
-    //   wrapperRef.current.classList.remove('freese')
-    // }
-    // if (freese) {
-    //   document.body.style.position = 'fixed'
-    // } else {
-    //   document.body.style.position = 'relative'
-    // }
-  })
+  // useEffect(() => {
+  //   console.log(freese)
+  //   if (freese) {
+  //     wrapperRef.current.classList.add('freese')
+  //   } else {
+  //     wrapperRef.current.classList.remove('freese')
+  //   }
+  //   // if (freese) {
+  //   //   document.body.style.position = 'fixed'
+  //   // } else {
+  //   //   document.body.style.position = 'relative'
+  //   // }
+  // })
 
   const controlFreese = (e) => {
     if (freese) {

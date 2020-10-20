@@ -1,7 +1,8 @@
 import React from 'react'
+import Wrapper from 'components/mainWrapper'
 
 export default () => {
     return (
-        <div>my</div>
+        <Wrapper>my</Wrapper>
     )
 }

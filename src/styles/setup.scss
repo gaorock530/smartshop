@@ -34,6 +34,9 @@ a {
 .freese {
     position: fixed;
     overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
 }
 
 header {
@@ -49,6 +52,14 @@ header {
     }
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"]{
+  -moz-appearance: textfield;
+}
+
 
 
 .break-text {
@@ -59,4 +70,13 @@ header {
 .orange {
     // background-color: orangered;
     color: orangered;
-  }
+}
+
+.main-wrapper {
+    height: 550vh;
+}
+
+.test {
+    position: fixed;
+    top: 10%;
+}
